@@ -21,17 +21,25 @@ class CreateEnvironmentResponse200Environment:
     """
     Attributes:
         system_id (str):
+        name (Union[Unset, str]):
+        description (Union[Unset, str]):
         expires_at (Union[None, Unset, datetime.datetime]):
         target_filter (Union[Unset, CreateEnvironmentResponse200EnvironmentTargetFilter]):
     """
 
     system_id: str
+    name: Union[Unset, str] = UNSET
+    description: Union[Unset, str] = UNSET
     expires_at: Union[None, Unset, datetime.datetime] = UNSET
     target_filter: Union[Unset, "CreateEnvironmentResponse200EnvironmentTargetFilter"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         system_id = self.system_id
+
+        name = self.name
+
+        description = self.description
 
         expires_at: Union[None, Unset, str]
         if isinstance(self.expires_at, Unset):
@@ -52,6 +60,10 @@ class CreateEnvironmentResponse200Environment:
                 "systemId": system_id,
             }
         )
+        if name is not UNSET:
+            field_dict["name"] = name
+        if description is not UNSET:
+            field_dict["description"] = description
         if expires_at is not UNSET:
             field_dict["expiresAt"] = expires_at
         if target_filter is not UNSET:
@@ -67,6 +79,10 @@ class CreateEnvironmentResponse200Environment:
 
         d = src_dict.copy()
         system_id = d.pop("systemId")
+
+        name = d.pop("name", UNSET)
+
+        description = d.pop("description", UNSET)
 
         def _parse_expires_at(data: object) -> Union[None, Unset, datetime.datetime]:
             if data is None:
@@ -94,6 +110,8 @@ class CreateEnvironmentResponse200Environment:
 
         create_environment_response_200_environment = cls(
             system_id=system_id,
+            name=name,
+            description=description,
             expires_at=expires_at,
             target_filter=target_filter,
         )

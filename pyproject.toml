@@ -36,9 +36,9 @@ description = "A client library for accessing Ctrlplane API"
 authors = []
 readme = "README.md"
 packages = [
-    {include = "ctrlplane_api_client"},
+    {include = "ctrlplane"},
 ]
-include = ["CHANGELOG.md", "ctrlplane_api_client/py.typed"]
+include = ["CHANGELOG.md", "ctrlplane/py.typed"]
 
 [tool.hatch.build.targets.sdist]
 include = [

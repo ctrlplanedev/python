@@ -9,11 +9,12 @@ from ...models.create_release_channel_body import CreateReleaseChannelBody
 from ...models.create_release_channel_response_200 import CreateReleaseChannelResponse200
 from ...models.create_release_channel_response_401 import CreateReleaseChannelResponse401
 from ...models.create_release_channel_response_403 import CreateReleaseChannelResponse403
+from ...models.create_release_channel_response_409 import CreateReleaseChannelResponse409
+from ...models.create_release_channel_response_500 import CreateReleaseChannelResponse500
 from ...types import Response
 
 
 def _get_kwargs(
-    deployment_id: str,
     *,
     body: CreateReleaseChannelBody,
 ) -> Dict[str, Any]:
@@ -21,7 +22,7 @@ def _get_kwargs(
 
     _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": f"/v1/deployments/{deployment_id}/release-channels",
+        "url": "/v1/release-channels",
     }
 
     _body = body.to_dict()
@@ -35,7 +36,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Optional[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     if response.status_code == 200:
         response_200 = CreateReleaseChannelResponse200.from_dict(response.json())
 
@@ -48,6 +57,14 @@ def _parse_response(
         response_403 = CreateReleaseChannelResponse403.from_dict(response.json())
 
         return response_403
+    if response.status_code == 409:
+        response_409 = CreateReleaseChannelResponse409.from_dict(response.json())
+
+        return response_409
+    if response.status_code == 500:
+        response_500 = CreateReleaseChannelResponse500.from_dict(response.json())
+
+        return response_500
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -56,7 +73,15 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Response[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,15 +91,21 @@ def _build_response(
 
 
 def sync_detailed(
-    deployment_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateReleaseChannelBody,
-) -> Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Response[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     """Create a release channel
 
     Args:
-        deployment_id (str):
         body (CreateReleaseChannelBody):
 
     Raises:
@@ -82,11 +113,10 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]
+        Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403, CreateReleaseChannelResponse409, CreateReleaseChannelResponse500]]
     """
 
     kwargs = _get_kwargs(
-        deployment_id=deployment_id,
         body=body,
     )
 
@@ -98,15 +128,21 @@ def sync_detailed(
 
 
 def sync(
-    deployment_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateReleaseChannelBody,
-) -> Optional[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Optional[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     """Create a release channel
 
     Args:
-        deployment_id (str):
         body (CreateReleaseChannelBody):
 
     Raises:
@@ -114,26 +150,31 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]
+        Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403, CreateReleaseChannelResponse409, CreateReleaseChannelResponse500]
     """
 
     return sync_detailed(
-        deployment_id=deployment_id,
         client=client,
         body=body,
     ).parsed
 
 
 async def asyncio_detailed(
-    deployment_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateReleaseChannelBody,
-) -> Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Response[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     """Create a release channel
 
     Args:
-        deployment_id (str):
         body (CreateReleaseChannelBody):
 
     Raises:
@@ -141,11 +182,10 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]
+        Response[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403, CreateReleaseChannelResponse409, CreateReleaseChannelResponse500]]
     """
 
     kwargs = _get_kwargs(
-        deployment_id=deployment_id,
         body=body,
     )
 
@@ -155,15 +195,21 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    deployment_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateReleaseChannelBody,
-) -> Optional[Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]]:
+) -> Optional[
+    Union[
+        CreateReleaseChannelResponse200,
+        CreateReleaseChannelResponse401,
+        CreateReleaseChannelResponse403,
+        CreateReleaseChannelResponse409,
+        CreateReleaseChannelResponse500,
+    ]
+]:
     """Create a release channel
 
     Args:
-        deployment_id (str):
         body (CreateReleaseChannelBody):
 
     Raises:
@@ -171,12 +217,11 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403]
+        Union[CreateReleaseChannelResponse200, CreateReleaseChannelResponse401, CreateReleaseChannelResponse403, CreateReleaseChannelResponse409, CreateReleaseChannelResponse500]
     """
 
     return (
         await asyncio_detailed(
-            deployment_id=deployment_id,
             client=client,
             body=body,
         )

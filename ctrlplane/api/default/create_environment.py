@@ -7,6 +7,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_environment_body import CreateEnvironmentBody
 from ...models.create_environment_response_200 import CreateEnvironmentResponse200
+from ...models.create_environment_response_409 import CreateEnvironmentResponse409
 from ...models.create_environment_response_500 import CreateEnvironmentResponse500
 from ...types import Response
 
@@ -33,11 +34,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     if response.status_code == 200:
         response_200 = CreateEnvironmentResponse200.from_dict(response.json())
 
         return response_200
+    if response.status_code == 409:
+        response_409 = CreateEnvironmentResponse409.from_dict(response.json())
+
+        return response_409
     if response.status_code == 500:
         response_500 = CreateEnvironmentResponse500.from_dict(response.json())
 
@@ -50,7 +55,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,7 +68,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateEnvironmentBody,
-) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     """Create an environment
 
     Args:
@@ -74,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]
+        Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]
     """
 
     kwargs = _get_kwargs(
@@ -92,7 +97,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateEnvironmentBody,
-) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     """Create an environment
 
     Args:
@@ -103,7 +108,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]
+        Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]
     """
 
     return sync_detailed(
@@ -116,7 +121,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateEnvironmentBody,
-) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     """Create an environment
 
     Args:
@@ -127,7 +132,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]
+        Response[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]
     """
 
     kwargs = _get_kwargs(
@@ -143,7 +148,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     body: CreateEnvironmentBody,
-) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]]:
+) -> Optional[Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]]:
     """Create an environment
 
     Args:
@@ -154,7 +159,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CreateEnvironmentResponse200, CreateEnvironmentResponse500]
+        Union[CreateEnvironmentResponse200, CreateEnvironmentResponse409, CreateEnvironmentResponse500]
     """
 
     return (

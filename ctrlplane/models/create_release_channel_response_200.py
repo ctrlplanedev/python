@@ -1,11 +1,15 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.create_release_channel_response_200_release_filter import CreateReleaseChannelResponse200ReleaseFilter
+
 
 T = TypeVar("T", bound="CreateReleaseChannelResponse200")
 
@@ -15,31 +19,29 @@ class CreateReleaseChannelResponse200:
     """
     Attributes:
         id (str):
-        name (str):
         deployment_id (str):
+        name (str):
         created_at (datetime.datetime):
-        updated_at (datetime.datetime):
         description (Union[None, Unset, str]):
+        release_filter (Union[Unset, CreateReleaseChannelResponse200ReleaseFilter]):
     """
 
     id: str
-    name: str
     deployment_id: str
+    name: str
     created_at: datetime.datetime
-    updated_at: datetime.datetime
     description: Union[None, Unset, str] = UNSET
+    release_filter: Union[Unset, "CreateReleaseChannelResponse200ReleaseFilter"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
 
-        name = self.name
-
         deployment_id = self.deployment_id
 
-        created_at = self.created_at.isoformat()
+        name = self.name
 
-        updated_at = self.updated_at.isoformat()
+        created_at = self.created_at.isoformat()
 
         description: Union[None, Unset, str]
         if isinstance(self.description, Unset):
@@ -47,34 +49,41 @@ class CreateReleaseChannelResponse200:
         else:
             description = self.description
 
+        release_filter: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.release_filter, Unset):
+            release_filter = self.release_filter.to_dict()
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "id": id,
-                "name": name,
                 "deploymentId": deployment_id,
+                "name": name,
                 "createdAt": created_at,
-                "updatedAt": updated_at,
             }
         )
         if description is not UNSET:
             field_dict["description"] = description
+        if release_filter is not UNSET:
+            field_dict["releaseFilter"] = release_filter
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.create_release_channel_response_200_release_filter import (
+            CreateReleaseChannelResponse200ReleaseFilter,
+        )
+
         d = src_dict.copy()
         id = d.pop("id")
 
-        name = d.pop("name")
-
         deployment_id = d.pop("deploymentId")
 
-        created_at = isoparse(d.pop("createdAt"))
+        name = d.pop("name")
 
-        updated_at = isoparse(d.pop("updatedAt"))
+        created_at = isoparse(d.pop("createdAt"))
 
         def _parse_description(data: object) -> Union[None, Unset, str]:
             if data is None:
@@ -85,13 +94,20 @@ class CreateReleaseChannelResponse200:
 
         description = _parse_description(d.pop("description", UNSET))
 
+        _release_filter = d.pop("releaseFilter", UNSET)
+        release_filter: Union[Unset, CreateReleaseChannelResponse200ReleaseFilter]
+        if isinstance(_release_filter, Unset):
+            release_filter = UNSET
+        else:
+            release_filter = CreateReleaseChannelResponse200ReleaseFilter.from_dict(_release_filter)
+
         create_release_channel_response_200 = cls(
             id=id,
-            name=name,
             deployment_id=deployment_id,
+            name=name,
             created_at=created_at,
-            updated_at=updated_at,
             description=description,
+            release_filter=release_filter,
         )
 
         create_release_channel_response_200.additional_properties = d

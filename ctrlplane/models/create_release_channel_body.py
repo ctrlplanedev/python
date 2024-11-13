@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -16,36 +16,42 @@ T = TypeVar("T", bound="CreateReleaseChannelBody")
 class CreateReleaseChannelBody:
     """
     Attributes:
+        deployment_id (str):
         name (str):
-        description (Union[Unset, str]):
-        release_filter (Union[Unset, CreateReleaseChannelBodyReleaseFilter]):
+        release_filter (CreateReleaseChannelBodyReleaseFilter):
+        description (Union[None, Unset, str]):
     """
 
+    deployment_id: str
     name: str
-    description: Union[Unset, str] = UNSET
-    release_filter: Union[Unset, "CreateReleaseChannelBodyReleaseFilter"] = UNSET
+    release_filter: "CreateReleaseChannelBodyReleaseFilter"
+    description: Union[None, Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        deployment_id = self.deployment_id
+
         name = self.name
 
-        description = self.description
+        release_filter = self.release_filter.to_dict()
 
-        release_filter: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.release_filter, Unset):
-            release_filter = self.release_filter.to_dict()
+        description: Union[None, Unset, str]
+        if isinstance(self.description, Unset):
+            description = UNSET
+        else:
+            description = self.description
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "deploymentId": deployment_id,
                 "name": name,
+                "releaseFilter": release_filter,
             }
         )
         if description is not UNSET:
             field_dict["description"] = description
-        if release_filter is not UNSET:
-            field_dict["releaseFilter"] = release_filter
 
         return field_dict
 
@@ -54,21 +60,26 @@ class CreateReleaseChannelBody:
         from ..models.create_release_channel_body_release_filter import CreateReleaseChannelBodyReleaseFilter
 
         d = src_dict.copy()
+        deployment_id = d.pop("deploymentId")
+
         name = d.pop("name")
 
-        description = d.pop("description", UNSET)
+        release_filter = CreateReleaseChannelBodyReleaseFilter.from_dict(d.pop("releaseFilter"))
 
-        _release_filter = d.pop("releaseFilter", UNSET)
-        release_filter: Union[Unset, CreateReleaseChannelBodyReleaseFilter]
-        if isinstance(_release_filter, Unset):
-            release_filter = UNSET
-        else:
-            release_filter = CreateReleaseChannelBodyReleaseFilter.from_dict(_release_filter)
+        def _parse_description(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        description = _parse_description(d.pop("description", UNSET))
 
         create_release_channel_body = cls(
+            deployment_id=deployment_id,
             name=name,
-            description=description,
             release_filter=release_filter,
+            description=description,
         )
 
         create_release_channel_body.additional_properties = d
