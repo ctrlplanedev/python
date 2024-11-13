@@ -7,7 +7,7 @@ A client library for accessing Ctrlplane API
 First, create a client:
 
 ```python
-from ctrlplane_api_client import Client
+from ctrlplane import Client
 
 client = Client(base_url="https://api.example.com")
 ```
@@ -83,7 +83,7 @@ Things to know:
 There are more settings on the generated `Client` class which let you control more runtime behavior, check out the docstring on that class for more info. You can also customize the underlying `httpx.Client` or `httpx.AsyncClient` (depending on your use-case):
 
 ```python
-from ctrlplane_api_client import Client
+from ctrlplane import Client
 
 def log_request(request):
     print(f"Request event hook: {request.method} {request.url} - Waiting for response")
@@ -104,7 +104,7 @@ You can even set the httpx client directly, but beware that this will override a
 
 ```python
 import httpx
-from ctrlplane_api_client import Client
+from ctrlplane import Client
 
 client = Client(
     base_url="https://api.example.com",
