@@ -7,11 +7,9 @@ name = "ctrlplane"
 dynamic = ["version"]
 description = "A client library for accessing Ctrlplane API"
 authors = [{ name = "Ctrlplane", email = "support@ctrlplane.dev" }]
-readme = "package_readme.md"
-license = { file = "LICENSE" }
+readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
-    "python = ^3.8",
     "httpx>=0.20.0,<0.28.0",
     "attrs>=21.3.0",
     "python-dateutil>=2.8.0",
@@ -41,13 +39,6 @@ packages = [
     {include = "ctrlplane_api_client"},
 ]
 include = ["CHANGELOG.md", "ctrlplane_api_client/py.typed"]
-
-
-[tool.poetry.dependencies]
-python = "^3.8"
-httpx = ">=0.20.0,<0.28.0"
-attrs = ">=21.3.0"
-python-dateutil = "^2.8.0"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -81,3 +72,6 @@ ignore-overlong-task-comments = true
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.hatch.version]
+path = "ctrlplane/__init__.py"
